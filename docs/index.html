@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <title>SQLite Data Viewer</title>
+        <meta charset="utf-8"/>
+        <!-- code mirror -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/theme/monokai.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/sql/sql.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/theme/monokai.css">
+        <!-- vue js -->
+        <script src="https://vuejs.org/js/vue.js"></script>
+        <!-- sql.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/0.3.2/js/sql.js"></script>
+        <!-- jquery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <!-- semantic-ui -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.js"></script>
+    </head>
+    <body style="padding: 20px;">
+        <h2>SQLite Viewer</h2>
+        <div id="app">
+            <textarea id="editor" name="code" v-model="sql"></textarea>
+            <p style="text-align:right;">
+              <button class="ui basic button" v-on:click="excute">
+                <i class="icon play"></i>Excute
+              </button>
+            </p>
+            <br>
+            <div v-for="table_data in table_datas">
+                <h3>{{ table_data.table_name }}</h3>
+                <table class="ui celled table">
+                    <thead>
+                      <tr>
+                        <th v-for="column in table_data.columns">
+                            {{ column.name }}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="row in table_data.rows">
+                        <td v-for="column in table_data.columns">
+                            <span v-if="row[column.name] !== null">{{ row[column.name] }}</span>
+                            <span v-if="row[column.name] === null" class="ui label">NULL</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="./main.js"></script>
+    </body>
+</html>
